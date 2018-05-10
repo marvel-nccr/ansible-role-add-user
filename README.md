@@ -8,7 +8,7 @@ An ansible role that adds a user with public key and/or password.
 
 ## Role Variables
 
-See `defaults/main.yml`
+See `defaults/main.yml`.
 
 ## Example Playbook
 
