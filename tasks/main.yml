@@ -1,4 +1,9 @@
 ---
+- name: add group {{ add_user_group }}
+  become: True
+  group:
+    name: "{{ add_user_group }}"
+
 - name: add user {{ add_user_name }}
   become: True
   user:
