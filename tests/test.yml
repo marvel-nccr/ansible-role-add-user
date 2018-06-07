@@ -4,3 +4,6 @@
   - role: add-user
     vars:
       cloud_platform: docker
+      add_user_name: test
+      add_user_password: testpw
+      add_user_sudo: True

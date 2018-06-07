@@ -3,8 +3,32 @@
   become: True
   user:
     name: "{{ add_user_name }}"
-    #group: "{{ add_user_group }}"
+    group: "{{ add_user_group }}"
     shell: /bin/bash
+  when: add_user_password is not defined
+
+# Note: In order to avoid a changed state when setting the password
+# it needs to be set when the user is created.
+- name: add user {{ add_user_name }} with password
+  become: True
+  user:
+    name: "{{ add_user_name }}"
+    group: "{{ add_user_group }}"
+    shell: /bin/bash
+    # string filter is workaround for ansible vault issue
+    # https://github.com/ansible/ansible/pull/35406
+    password: "{{ add_user_password | string | password_hash('sha512') }}"
+    update_password: on_create
+  when: add_user_password is defined
+
+- name: enable passwordless sudo for group {{ add_user_group}}
+  become: True
+  lineinfile:
+    dest: /etc/sudoers
+    state: present
+    regexp: '^%{{ add_user_group }}'
+    line: '%{{ add_user_group }} ALL=(ALL) NOPASSWD: ALL'
+    validate: 'visudo -cf %s'
 
 - name: add ssh key 
   become: True
@@ -12,12 +36,3 @@
     user: "{{ add_user_name }}"
     key: "{{ add_user_public_key }}"
   when: add_user_public_key is defined
-
-- name: set password
-  become: True
-  user:
-    name: "{{ add_user_name }}"
-    # string filter is workaround for ansible vault issue
-    # https://github.com/ansible/ansible/pull/35406
-    password: "{{ add_user_password | string | password_hash('sha512') }}"
-  when: add_user_password is defined
