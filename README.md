@@ -1,3 +1,4 @@
+[![Build Status](https://travis-ci.org/marvel-nccr/ansible-role-add-user.svg?branch=master)](https://travis-ci.org/marvel-nccr/ansible-role-add-user)
 # Ansible Role: marvel-nccr.add-user
 
 An ansible role that adds a user with public key and/or password.
