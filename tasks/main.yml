@@ -1,11 +1,11 @@
 ---
 - name: add group {{ add_user_group }}
-  become: True
+  become: true
   group:
     name: "{{ add_user_group }}"
 
 - name: add user {{ add_user_name }}
-  become: True
+  become: true
   user:
     name: "{{ add_user_name }}"
     group: "{{ add_user_group }}"
@@ -15,7 +15,7 @@
 # Note: In order to avoid a changed state when setting the password
 # it needs to be set when the user is created.
 - name: add user {{ add_user_name }} with password
-  become: True
+  become: true
   user:
     name: "{{ add_user_name }}"
     group: "{{ add_user_group }}"
@@ -27,7 +27,7 @@
   when: add_user_password is defined
 
 - name: enable passwordless sudo for group {{ add_user_group}}
-  become: True
+  become: true
   lineinfile:
     dest: /etc/sudoers
     state: present
@@ -35,8 +35,8 @@
     line: '%{{ add_user_group }} ALL=(ALL) NOPASSWD: ALL'
     validate: 'visudo -cf %s'
 
-- name: add ssh key 
-  become: True
+- name: add ssh key
+  become: true
   authorized_key:
     user: "{{ add_user_name }}"
     key: "{{ add_user_public_key }}"

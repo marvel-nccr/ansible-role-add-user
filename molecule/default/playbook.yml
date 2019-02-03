@@ -1,0 +1,19 @@
+---
+- hosts: all
+  become: true
+
+  pre_tasks:
+    - name: Update apt cache.
+      apt: update_cache=yes cache_valid_time=600
+      when: ansible_os_family == 'Debian'
+
+  vars:
+    cloud_platform: docker
+
+  roles:
+    - role: marvel-nccr.add_user
+      vars:
+        cloud_platform: docker
+        add_user_name: test
+        add_user_password: testpw
+        add_user_sudo: true
