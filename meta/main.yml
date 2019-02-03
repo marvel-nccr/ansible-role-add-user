@@ -2,6 +2,7 @@
 allow_duplicates: no
 
 galaxy_info:
+  role_name: add_user
   author: "MARVEL NCCR"
   description: "An ansible role that adds a user with public key and/or password."
   license: MIT
