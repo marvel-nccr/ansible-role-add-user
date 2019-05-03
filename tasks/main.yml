@@ -34,6 +34,7 @@
     regexp: '^%{{ add_user_group }}'
     line: '%{{ add_user_group }} ALL=(ALL) NOPASSWD: ALL'
     validate: 'visudo -cf %s'
+  when: add_user_sudo is defined and add_user_sudo
 
 - name: add ssh key
   become: true
