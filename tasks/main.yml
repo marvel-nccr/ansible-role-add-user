@@ -1,14 +1,15 @@
 ---
-- name: add group {{ add_user_group }}
+- name: add groups {{ add_user_groups }}
   become: true
   group:
-    name: "{{ add_user_group }}"
+    name: "{{ item }}"
+  with_items: "{{ add_user_groups }}"
 
 - name: add user {{ add_user_name }}
   become: true
   user:
     name: "{{ add_user_name }}"
-    group: "{{ add_user_group }}"
+    groups: "{{ add_user_groups }}"
     shell: /bin/bash
   when: add_user_password is not defined
 
@@ -18,7 +19,7 @@
   become: true
   user:
     name: "{{ add_user_name }}"
-    group: "{{ add_user_group }}"
+    groups: "{{ add_user_groups }}"
     shell: /bin/bash
     # string filter is workaround for ansible vault issue
     # https://github.com/ansible/ansible/pull/35406
@@ -34,7 +35,7 @@
     regexp: '^%{{ add_user_group }}'
     line: '%{{ add_user_group }} ALL=(ALL) NOPASSWD: ALL'
     validate: 'visudo -cf %s'
-  when: add_user_sudo is defined and add_user_sudo
+  when: add_user_passwordless_sudo
 
 - name: add ssh key
   become: true

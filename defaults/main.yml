@@ -1,6 +1,7 @@
 ---
 add_user_name: aiida
-add_user_group: "{{ add_user_name }}"
-add_user_sudo: false
-# add_user_public_key:  # set this to ssh public key string
 # add_user_password:  # set this to password
+# add_user_public_key:  # set this to ssh public key string
+add_user_groups:
+ - "{{ add_user_name }}"
+add_user_passwordless_sudo: false
