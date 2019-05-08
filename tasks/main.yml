@@ -27,13 +27,13 @@
     update_password: on_create
   when: add_user_password is defined
 
-- name: enable passwordless sudo for group {{ add_user_group }}
+- name: enable passwordless sudo for group {{ add_user_name }}
   become: true
   lineinfile:
     dest: /etc/sudoers
     state: present
-    regexp: '^%{{ add_user_group }}'
-    line: '%{{ add_user_group }} ALL=(ALL) NOPASSWD: ALL'
+    regexp: '^%{{ add_user_name }}'
+    line: '%{{ add_user_name }} ALL=(ALL) NOPASSWD: ALL'
     validate: 'visudo -cf %s'
   when: add_user_passwordless_sudo
 
